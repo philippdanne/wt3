@@ -12,4 +12,11 @@
 */
 
 Route::get('/', 'PagesController@home');
-Route::get('/analysis', 'PagesController@analysis');
+Route::get('/analysis', 'QuestionsController@index');
+Route::post('/analysis/result', 'TempUserController@calculate');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('pages/analysis', 'QuestionsController');
