@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Question;
 
 class QuestionsController extends Controller
 {
@@ -13,8 +14,14 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        //
+        /*$questions = Question::where('id', 1)->first()->titel;
+ 
+        return view('pages.analysis')->with('fragenTitel', $questions);*/
+        
+        $questions = Question::all();
+        return view('pages.analysis')->with('questions', $questions);
     }
+    
 
     /**
      * Show the form for creating a new resource.

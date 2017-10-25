@@ -9717,6 +9717,10 @@ a.text-dark:hover {
   visibility: hidden !important;
 }
 
+body {
+  padding-bottom: 50px;
+}
+
 .questions {
   background-color: #fff;
   margin: 100px auto 0;

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Analyse
+tastalyze - Entdecke deinen Geschmack.
 @stop
 @section('content')
 <div class="container-fluid no-padding main-img">

@@ -4,19 +4,28 @@ Analyse
 @stop
 @section('content')
 <div class="container">
-    <section class="col-8 questions">
+        @if(count($questions) > 1)
         {!! Form::open(['action' => 'TempUserController@calculate', 'method' => 'POST']) !!}
-            echo Form::radio('stimmeZu', '1');
-            echo Form::radio('neutral', '2');
-            echo Form::radio('stimmeNichtZu', '3');
+            @foreach($questions as $question)           
+            <section class="col-8 questions">
+                <h1>Frage {{ $question->id }} von {{ count($questions) }}</h1>
+                <h2>{{ $question->titel }}</h2>
+                <div class="container">
+                    {{ Form::radio('rd' . $question->id, $question->id . '.1', false, ['id' => 'rd1' . $question->id]) }}
+                    {{ Form::label('rd1' . $question->id, 'gefällt mir') }}<br>
+                    {{ Form::radio('rd' . $question->id, $question->id . '.2', false, ['id' => 'rd2' . $question->id]) }}
+                    {{ Form::label('rd2' . $question->id, 'neutral') }}<br>
+                    {{ Form::radio('rd' . $question->id, $question->id . '.3', false, ['id' => 'rd3' . $question->id]) }}
+                    {{ Form::label('rd3' . $question->id, 'gefällt mir nicht') }}
+                </div>
+            </section>
+            @endforeach
+        {{ Form::submit('Ergebnis') }}
         {!! Form::close() !!}
-        <h1>Frage 1 von 10</h1>
-        <h2>{{ $fragenTitel }}</h2>
-        <div class="container">
-            <a class="col-md-4 col-sm-12 answer" href="#">stimme zu</a>
-            <a class="col-md-4 col-sm-12 answer" href="#">neutral</a>
-            <a class="col-md-4 col-sm-12 answer" href="#">stimme nicht zu</a>
-        </div>
-    </section>
+        @else
+        <section class="col-8 questions">
+            <h1>Es gab einen Fehler bei der Auswahl der Produkte. Sorry!</h1>
+        </section>
+        @endif
     </div>
 @stop
