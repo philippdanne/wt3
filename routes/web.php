@@ -13,7 +13,7 @@
 
 Route::get('/', 'PagesController@home');
 Route::get('/analysis', 'QuestionsController@index');
-Route::post('/analysis/result', 'TempUserController@calculate');
+Route::post('/analysis/result', 'TempUserController@calculateForView');
 
 Auth::routes();
 

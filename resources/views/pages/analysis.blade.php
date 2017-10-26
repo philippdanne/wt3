@@ -5,7 +5,7 @@ Analyse
 @section('content')
 <div class="container">
         @if(count($questions) > 1)
-        {!! Form::open(['action' => 'TempUserController@calculate', 'method' => 'POST']) !!}
+        {!! Form::open(['action' => 'TempUserController@calculateForView', 'method' => 'POST']) !!}
             @foreach($questions as $question)           
             <section class="col-8 questions">
                 <h1>Frage {{ $question->id }} von {{ count($questions) }}</h1>

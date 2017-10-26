@@ -141,6 +141,24 @@ class TempUserController extends Controller
                 $taste[4] -= Question::find($i)->fruchtig;
             }
         }
-        return view('pages.result')->with('ergebnisTest', $taste);
+        return $taste;
+    }
+    
+    public function calculateForView(Request $request)
+    {
+        $tasteRaw = $this->calculate($request);
+        $tasteCalc = array();
+        $highestArrayValue = max($tasteRaw);
+        
+        for ($i = 1; $i <= count($tasteRaw); $i++) {
+            if($tasteRaw[$i] >= 0){
+                $tasteCalc[$i] = ($tasteRaw[$i] / $highestArrayValue)*100;   
+            }
+            else{
+                $tasteCalc[$i] = 0;
+            }
+        }
+        
+        return view('pages.result')->with('mild', $tasteCalc[1])->with('suess', $tasteCalc[2])->with('wuerzig', $tasteCalc[3])->with('fruchtig', $tasteCalc[4]);
     }
 }
