@@ -125,6 +125,7 @@ class TempUserController extends Controller
         //fruchtig
         $taste[4] = 0;
         
+        //Die einzelnen Geschmackswerte jeder Flasche werden aufaddiert
         for ($i = 1; $i <= count($resultsNum); $i++) {
             if($resultsNum[$i] == 1){
                 $taste[1] += Question::find($i)->mild;
@@ -141,10 +142,24 @@ class TempUserController extends Controller
                 $taste[4] -= Question::find($i)->fruchtig;
             }
         }
-        return $taste;
+        
+        //Der Durchschnitt der jeweiligen Werte wird gebildet
+        $tasteCalc = array();
+        
+        for ($i = 1; $i <= count($taste); $i++) {
+            if($taste[$i] >= 0){
+                $tasteCalc[$i] = $taste[$i] / count($taste);
+            }
+            else{
+                $tasteCalc[$i] = 0;
+            }
+        }
+        
+        
+        return view('pages.result')->with('mild', $tasteCalc[1])->with('suess', $tasteCalc[2])->with('wuerzig', $tasteCalc[3])->with('fruchtig', $tasteCalc[4]);
     }
     
-    public function calculateForView(Request $request)
+    /*public function calculateAverage()
     {
         $tasteRaw = $this->calculate($request);
         $tasteCalc = array();
@@ -160,5 +175,5 @@ class TempUserController extends Controller
         }
         
         return view('pages.result')->with('mild', $tasteCalc[1])->with('suess', $tasteCalc[2])->with('wuerzig', $tasteCalc[3])->with('fruchtig', $tasteCalc[4]);
-    }
+    }*/
 }
