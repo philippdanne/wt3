@@ -35,7 +35,26 @@ body{
         color: #333;
     }
 }
-
+.navbar{
+        .btn{
+        padding: 5px 40px;
+        font-size: 0.8em;
+    }    
+}
+.btn{
+        padding: 10px 40px;
+        border-radius: 40px;
+        box-shadow: 0px 0px 40px -7px rgba(0,0,0,0.5);
+        transition: 0.4s;
+        cursor:pointer;
+    }
+.btn:hover{
+        box-shadow: 0px 0px 40px -3px rgba(0,0,0,0.5);
+    }
+.btn-result{
+    margin: 60px auto 40px;
+    text-align: center;
+}
 .main-img{
     height: 70vh;
     width: 100%;
@@ -91,3 +110,78 @@ body{
 .result{
     text-align: center;
 }
+
+.admin{
+    background-color: #fff;
+    margin: 30px auto 50px;
+    text-align: center;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 108px -23px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 108px -23px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 108px -23px rgba(0,0,0,0.5);
+    padding: 0 0 20px;
+        h1{
+        padding: 20px;
+        font-size: 1em;
+        color: #fff;
+        border-radius: 5px 5px 0px 0px;
+        background: #f46b45;  /* fallback for old browsers */
+        background: linear-gradient(to right, #eea849, #f46b45); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+        table{
+            a{
+            display: block; 
+            padding: 20px; 
+            color: #444;
+            }
+            a:hover{
+            text-decoration: none; 
+            color: #444;
+            }   
+        }
+        td{
+        padding: 0px;
+        }
+        .table-hover tbody tr td, .table-hover tbody tr th {
+        transition: background-color 0.5s;
+        }
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        background-color: #eee;
+        }
+    
+    //Forms
+        .form-group{
+            width:60%;
+            margin: 30px auto;
+            box-shadow: 0px 0px 108px -23px rgba(0,0,0,0.5);
+        }
+        .form-group.numeric{
+            width: 20%;
+            margin: 30px auto;
+            box-shadow: 0px 0px 108px -23px rgba(0,0,0,0.5);
+        }
+        .control-label{
+            display: block;
+            padding: 10px;
+            background: linear-gradient(to right, #232526, #414345); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color: #fff;
+            margin-bottom: 0;
+            font-size: 0.9em;
+            border-radius: 5px 5px 0px 0px;
+        }
+        .form-control{
+            border-radius: 0;
+            border: 0;
+            padding: 15px;
+            background-color: #fff;
+            text-align: center;
+        }
+    .btn{
+        margin-top: 20px;
+    }
+}
+.admin-info{
+            h1{
+            background: linear-gradient(to right, #232526, #414345) !important;
+            }
+        }

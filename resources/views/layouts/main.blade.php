@@ -10,7 +10,12 @@
   <body>
     <nav class="navbar navbar-light bg-faded">
             <a class="navbar-brand" href="/">tastalyze</a>
-            <button class="btn btn-outline-primary" type="button">Anmelden</button>
+            @if(Auth::check())
+                <a href="{{ route('admin.index') }}"><button class="btn btn-primary" type="button">Admin</button></a>
+            @endif
+            @if(Auth::guest())
+                <a href="/login"><button class="btn btn-primary" type="button">Anmelden</button></a>
+            @endif
     </nav>
     @yield('content')
       

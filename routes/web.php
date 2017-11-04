@@ -12,11 +12,17 @@
 */
 
 Route::get('/', 'PagesController@home');
-Route::get('/analysis', 'QuestionsController@index');
+Route::get('/analysis', 'QuestionsController@showAnalysis');
 Route::post('/analysis/result', 'TempUserController@calculate');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'QuestionsController@test')->name('home');
+Route::get('/logout', function() {
+    Auth::logout();
+    return redirect('/');
+});
+//Route::get('/edit/{id}', 'QuestionsController@edit');
 
-Route::resource('pages/analysis', 'QuestionsController');
+//Route::resource('pages/analysis', 'QuestionsController');
+Route::resource('admin', 'QuestionsController');

@@ -6,21 +6,23 @@ Analyse
 <div class="container">
         @if(count($questions) > 1)
         {!! Form::open(['action' => 'TempUserController@calculate', 'method' => 'POST']) !!}
-            @foreach($questions as $question)           
+            @for ($i = 0; $i < count($questions); $i++)
             <section class="col-8 questions">
-                <h1>Frage {{ $question->id }} von {{ count($questions) }}</h1>
-                <h2>{{ $question->titel }}</h2>
+                <h1>Frage {{ $i+1 }} von {{ count($questions) }}</h1>
+                <h2>{{ $questions[$i]->titel }}</h2>
                 <div class="container">
-                    {{ Form::radio('rd' . $question->id, $question->id . '.1', false, ['id' => 'rd1' . $question->id]) }}
-                    {{ Form::label('rd1' . $question->id, 'gefällt mir') }}<br>
-                    {{ Form::radio('rd' . $question->id, $question->id . '.2', false, ['id' => 'rd2' . $question->id]) }}
-                    {{ Form::label('rd2' . $question->id, 'neutral') }}<br>
-                    {{ Form::radio('rd' . $question->id, $question->id . '.3', false, ['id' => 'rd3' . $question->id]) }}
-                    {{ Form::label('rd3' . $question->id, 'gefällt mir nicht') }}
+                    {{ Form::radio('rd' . $questions[$i]->id, $questions[$i]->id . '.1', false, ['id' => 'rd1' . $questions[$i]->id]) }}
+                    {{ Form::label('rd1' . $questions[$i]->id, 'gefällt mir') }}<br>
+                    {{ Form::radio('rd' . $questions[$i]->id, $questions[$i]->id . '.2', false, ['id' => 'rd2' . $questions[$i]->id]) }}
+                    {{ Form::label('rd2' . $questions[$i]->id, 'neutral') }}<br>
+                    {{ Form::radio('rd' . $questions[$i]->id, $questions[$i]->id . '.3', false, ['id' => 'rd3' . $questions[$i]->id]) }}
+                    {{ Form::label('rd3' . $questions[$i]->id, 'gefällt mir nicht') }}
                 </div>
             </section>
-            @endforeach
-        {{ Form::submit('Ergebnis') }}
+            @endfor
+        <div class="btn-result">
+            {!! Form::submit('Auswerten', ['class' => 'btn btn-primary btn-result']) !!}
+        </div>
         {!! Form::close() !!}
         @else
         <section class="col-8 questions">
