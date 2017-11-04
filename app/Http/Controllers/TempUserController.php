@@ -89,8 +89,8 @@ class TempUserController extends Controller
     {
         $questions = Question::all();
         $results = array();
-        foreach ($questions as $question) {
-            $results[$question->id] = $request->input('rd' . $question->id);
+        for ($i = 0; $i < count($questions); $i++) {
+            $results[$i] = $request->input('rd' . $questions[$i]->id);
         }
         return $results;
     }
@@ -98,7 +98,8 @@ class TempUserController extends Controller
     public function extractResults(Request $request){
         $resultsRaw = $this->getResults($request);
         $resultsExtracted = array();
-        for ($i = 1; $i <= count($resultsRaw); $i++) {
+        
+        for ($i = 0; $i < count($resultsRaw); $i++) {
             $resultShortened = strstr($resultsRaw[$i], '.');
             $resultsExtracted[$i] = substr($resultShortened, -1);
         }
@@ -107,6 +108,7 @@ class TempUserController extends Controller
     
     public function calculate(Request $request)
     {
+        $questions = Question::all();
         //Die Ergebnisse als Zahlen (1,2,3) werden aus der Funktion extractResults() geholt.
         $resultsNum = $this->extractResults($request);
         
@@ -114,41 +116,41 @@ class TempUserController extends Controller
         $taste = array();
         
         //mild
-        $taste[1] = 0;
+        $taste[0] = 50;
         
         //suess
-        $taste[2] = 0;
+        $taste[1] = 50;
         
         //wuerzig
-        $taste[3] = 0;
+        $taste[2] = 50;
         
         //fruchtig
-        $taste[4] = 0;
+        $taste[3] = 50;
         
         //Die einzelnen Geschmackswerte jeder Flasche werden aufaddiert
-        for ($i = 1; $i <= count($resultsNum); $i++) {
+        for ($i = 0; $i < count($resultsNum); $i++) {
             if($resultsNum[$i] == 1){
-                $taste[1] += Question::find($i)->mild;
-                $taste[2] += Question::find($i)->suess;
-                $taste[3] += Question::find($i)->wuerzig;
-                $taste[4] += Question::find($i)->fruchtig;
+                $taste[0] = ($taste[0] + $questions[$i]->mild)/2;
+                $taste[1] = ($taste[1] + $questions[$i]->suess)/2;
+                $taste[2] = ($taste[2] + $questions[$i]->wuerzig)/2;
+                $taste[3] = ($taste[3] + $questions[$i]->fruchtig)/2;
             }
             else if($resultsNum[$i] == 2){
             }
             else if($resultsNum[$i] == 3){
-                $taste[1] -= Question::find($i)->mild;
-                $taste[2] -= Question::find($i)->suess;
-                $taste[3] -= Question::find($i)->wuerzig;
-                $taste[4] -= Question::find($i)->fruchtig;
+                $taste[0] = $taste[0] - $questions[$i]->mild + ($questions[$i]->mild/2);
+                $taste[1] = $taste[1] - $questions[$i]->suess + ($questions[$i]->suess/2);
+                $taste[2] = $taste[2] - $questions[$i]->wuerzig + ($questions[$i]->wuerzig/2);
+                $taste[3] = $taste[3] - $questions[$i]->fruchtig + ($questions[$i]->fruchtig/2);
             }
         }
         
         //Der Durchschnitt der jeweiligen Werte wird gebildet
         $tasteCalc = array();
         
-        for ($i = 1; $i <= count($taste); $i++) {
+        for ($i = 0; $i < count($taste); $i++) {
             if($taste[$i] >= 0){
-                $tasteCalc[$i] = $taste[$i] / count($taste);
+                $tasteCalc[$i] = $taste[$i];
             }
             else{
                 $tasteCalc[$i] = 0;
@@ -156,7 +158,7 @@ class TempUserController extends Controller
         }
         
         
-        return view('pages.result')->with('mild', $tasteCalc[1])->with('suess', $tasteCalc[2])->with('wuerzig', $tasteCalc[3])->with('fruchtig', $tasteCalc[4]);
+        return view('pages.result')->with('mild', $tasteCalc[0])->with('suess', $tasteCalc[1])->with('wuerzig', $tasteCalc[2])->with('fruchtig', $tasteCalc[3]);
     }
     
     /*public function calculateAverage()
