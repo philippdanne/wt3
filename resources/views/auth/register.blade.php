@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+Registrieren
+@endsection
+
 @section('content')
 <div class="col-md-8 admin">
     <h1>Registrieren</h1>

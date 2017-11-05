@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('title')
 tastalyze - Entdecke deinen Geschmack.
-@stop
+@endsection
 @section('content')
 <div class="container-fluid no-padding main-img">
     <div class="vertical-center">
@@ -11,4 +11,4 @@ tastalyze - Entdecke deinen Geschmack.
     </div>
         </div>
 </div>
-@stop
+@endsection

@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+Passwort zurücksetzen
+@endsection
+
 @section('content')
 <div class="col-md-8 admin">
     <h1>Passwort zurücksetzen</h1>

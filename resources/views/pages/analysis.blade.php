@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('title')
-Analyse
-@stop
+Geschmacksanalyse
+@endsection
 @section('content')
 <div class="container">
         @if(count($questions) > 1)
@@ -30,4 +30,4 @@ Analyse
         </section>
         @endif
     </div>
-@stop
+@endsection

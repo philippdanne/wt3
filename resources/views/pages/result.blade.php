@@ -1,7 +1,9 @@
 @extends('layouts.main')
+
 @section('title')
 Ergebnis
-@stop
+@endsection
+
 @section('content')
     <div class="container result">
         <h1>Dein Ergebnis:</h1>
@@ -9,7 +11,6 @@ Ergebnis
         <canvas id="resultWeb" width="800" height="800"></canvas>
         </div>
     </div>
-<script type="text/javascript"></script>
         <script type="text/javascript">
             this.draw({{ $mild }}, {{ $suess }}, {{ $wuerzig }}, {{ $fruchtig }})
             function draw(mild, suess, wuerzig, fruchtig){
@@ -54,4 +55,4 @@ Ergebnis
             }
             }
         </script>
-@stop
+@endsection
