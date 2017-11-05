@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+Produkte hinzufügen, löschen oder bearbeiten
+@endsection
+
 @section('content')
 @if(Auth::check())
             <div class="col-8 admin">

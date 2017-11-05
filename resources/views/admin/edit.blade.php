@@ -12,6 +12,7 @@
     <div class="form-group">
         {!! Form::label('titel', 'Titel', ['class' => 'control-label']) !!}
         {!! Form::text('titel', $question->title, ['class' => 'form-control']) !!}
+        {!! Form::text('titel', $question->titel, ['class' => 'form-control']) !!}
     </div>
     
     <div class="form-group numeric">
