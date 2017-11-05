@@ -14,7 +14,7 @@
                 <a href="{{ route('admin.index') }}"><button class="btn btn-primary" type="button">Admin</button></a>
             @endif
             @if(Auth::guest())
-                <a href="/login"><button class="btn btn-primary" type="button">Anmelden</button></a>
+                <a href="{{ route('login') }}"><button class="btn btn-primary" type="button">Anmelden</button></a>
             @endif
     </nav>
     @yield('content')
