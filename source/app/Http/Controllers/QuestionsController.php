@@ -108,7 +108,7 @@ class QuestionsController extends Controller
         
         $question->fill($request->all())->save();
         
-        return redirect()->route('admin.index');
+        return response()->json($question);
     }
 
     /**
