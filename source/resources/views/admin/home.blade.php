@@ -21,7 +21,6 @@ Produkte hinzufügen, löschen oder bearbeiten
                     </thead>
                     <tbody>
                         @foreach($questions as $question)      
-                            <!--<tr data-toggle="modal" data-target="#myModal">!-->
                             <tr data-id="{{ $question->id }}" id="{{ $question->id }}">
                                 <td id="titel{{ $question->id }}">{{ $question->titel }}</td>
                                 <td id="mild{{ $question->id }}">{{ $question->mild }}</td>
@@ -53,7 +52,7 @@ Produkte hinzufügen, löschen oder bearbeiten
 
                       <!-- Modal Header -->
                       <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
+                        <h4 class="modal-title">Produkt hinzufügen</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                       </div>
 
@@ -86,6 +85,12 @@ Produkte hinzufügen, löschen oder bearbeiten
                             </div>
                             
                             <input type="hidden" id="idInput">
+                            
+                            @if ( count( $errors ) > 0 )
+                                @foreach($errors->all() as $error)
+                                {{ $error }}
+                                @endforeach
+                            @endif
 
                             <input class="btn btn-primary" type="submit" value="Speichern">
                             <input type="hidden" class="btn btn-danger" value="Löschen" id="deletePost">
@@ -102,6 +107,7 @@ Produkte hinzufügen, löschen oder bearbeiten
                 </div>
                     <script>
                         $('#add').click(function(){
+                            $('.modal-title').text('Produkt hinzufügen');
                             $('#myModal').modal('show');
                             $('.modalform').attr('id', 'createForm');
                             $('#titel').val(null);
@@ -112,6 +118,7 @@ Produkte hinzufügen, löschen oder bearbeiten
                             $('#idInput').val(null);
                         });
                         $('tr').click(function(){
+                            $('.modal-title').text('Produkt bearbeiten oder löschen');
                             $('#myModal').modal('show');
                             $('.modalform').attr('id', 'editForm');
                             $('#deletePost').attr('type', null);
@@ -162,7 +169,9 @@ Produkte hinzufügen, löschen oder bearbeiten
                                 $('#myModal').modal('hide');
                                 },
                                 error: function(data){
-                                    console.log(data);
+                                    var errors = data.responseJSON.errors;
+                                    var parsedErrors = JSON.stringify(errors);
+                                    console.log(parsedErrors);
                                 }
                             });
                         });
@@ -178,12 +187,14 @@ Produkte hinzufügen, löschen oder bearbeiten
                                 type: 'POST', //this is your method
                                 data: {titel: $('#titel').val(),mild: $('#mild').val(),suess: $('#suess').val(),wuerzig: $('#wuerzig').val(),fruchtig: $('#fruchtig').val()},
                                 success: function(data){
-                                    $('tbody').append('<tr><td id="titel' + data.id + '">' + data.titel + '</td><td id="mild' + data.id + '">' + data.mild + '</td><td id="suess' + data.id + '">' + data.suess + '</td><td id="wuerzig' + data.id + '">' + data.wuerzig + '</td><td id="fruchtig' + data.id + '">' + data.fruchtig + '</td></tr>'
+                                    $('tbody').append('<tr data-id=' + data.id + ' id=' + data.id + '><td id="titel' + data.id + '">' + data.titel + '</td><td id="mild' + data.id + '">' + data.mild + '</td><td id="suess' + data.id + '">' + data.suess + '</td><td id="wuerzig' + data.id + '">' + data.wuerzig + '</td><td id="fruchtig' + data.id + '">' + data.fruchtig + '</td></tr>'
                                 );
                                 $('#myModal').modal('hide');
                                 },
                                 error: function(data){
-                                    console.log(data);
+                                    var errors = data.responseJSON.errors;
+                                    var parsedErrors = JSON.stringify(errors);
+                                    console.log(parsedErrors);
                                 }
                             });
                         });
