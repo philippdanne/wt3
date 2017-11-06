@@ -83,7 +83,6 @@ class QuestionsController extends Controller
     {
         
         $this->validate($request, [
-            'titel' => 'required|unique:questions|max:60',
             'mild' => 'min:0|max:100|required|integer',
             'suess' => 'min:0|max:100|required|integer',
             'wuerzig' => 'min:0|max:100|required|integer',
