@@ -14,6 +14,9 @@
 Route::get('/', 'PagesController@home');
 Route::get('/analysis', 'QuestionsController@showAnalysis');
 Route::post('/analysis/result', 'TempUserController@calculate');
+Route::post('/setnew', 'QuestionsController@setNew');
+Route::put('/editold', 'QuestionsController@editOld');
+Route::delete('/delete', 'QuestionsController@deleteOld');
 
 Auth::routes();
 

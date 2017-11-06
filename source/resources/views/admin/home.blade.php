@@ -21,17 +21,18 @@ Produkte hinzufügen, löschen oder bearbeiten
                     </thead>
                     <tbody>
                         @foreach($questions as $question)      
-                            <tr>
-                                <td><a href="{{ route('admin.edit', $question->id) }}">{{ $question->titel }}</a></td>
-                                <td><a href="{{ route('admin.edit', $question->id) }}">{{ $question->mild }}</a></td>
-                                <td><a href="{{ route('admin.edit', $question->id) }}">{{ $question->suess }}</a></td>
-                                <td><a href="{{ route('admin.edit', $question->id) }}">{{ $question->wuerzig }}</a></td>
-                                <td><a href="{{ route('admin.edit', $question->id) }}">{{ $question->fruchtig }}</a></td>
+                            <!--<tr data-toggle="modal" data-target="#myModal">!-->
+                            <tr data-id="{{ $question->id }}" id="{{ $question->id }}">
+                                <td id="titel{{ $question->id }}">{{ $question->titel }}</td>
+                                <td id="mild{{ $question->id }}">{{ $question->mild }}</td>
+                                <td id="suess{{ $question->id }}">{{ $question->suess }}</td>
+                                <td id="wuerzig{{ $question->id }}">{{ $question->wuerzig }}</td>
+                                <td id="fruchtig{{ $question->id }}">{{ $question->fruchtig }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                     </table>
-                    <a href="admin/create"><button class="btn btn-primary" type="button">Neuen Eintrag erstellen</button></a>
+                    <button class="btn btn-primary" type="button" id="add">Neuen Eintrag erstellen</button>
                     @else
                     <section class="col-8 questions">
                         <h1>Es gab einen Fehler bei der Auswahl der Produkte. Sorry!</h1>
@@ -45,57 +46,147 @@ Produkte hinzufügen, löschen oder bearbeiten
                     
                 </div>
 
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
 
-    <h1>Eintrag bearbeiten</h1>
-    {!! Form::model($question, [
-        'method' => 'PATCH',
-        'route' => ['admin.update', $question->id]
-    , 'id' => 'testform']) !!}
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      </div>
 
-    <div class="form-group">
-        {!! Form::label('titel', 'Titel', ['class' => 'control-label']) !!}
-        {!! Form::text('titel', $question->titel, ['class' => 'form-control']) !!}
-    </div>
-    
-    <div class="form-group numeric">
-        {!! Form::label('mild', 'mild', ['class' => 'control-label']) !!}
-        {!! Form::number('mild', $question->mild, ['class' => 'form-control']) !!}
-    </div>
+                      <!-- Modal body -->
+                      <div class="modal-body">
+                        <form class="modalform">
+                            <div class="form-group">
+                                <label for="titel" class="control-label">Titel</label>
+                                <input class="form-control" name="titel" id="titel" type="text" value="" id="titel">
+                            </div>
 
-    <div class="form-group numeric">
-        {!! Form::label('suess', 'süß', ['class' => 'control-label']) !!}
-        {!! Form::number('suess', $question->suess, ['class' => 'form-control']) !!}
-    </div>
+                            <div class="form-group numeric">
+                                <label for="mild" class="control-label">mild</label>
+                                <input class="form-control" name="mild" id="mild" type="number" value="0" id="mild">
+                            </div>
 
-    <div class="form-group numeric">
-        {!! Form::label('wuerzig', 'würzig', ['class' => 'control-label']) !!}
-        {!! Form::number('wuerzig', $question->wuerzig, ['class' => 'form-control']) !!}
-    </div>
+                            <div class="form-group numeric">
+                                <label for="suess" class="control-label">s&uuml;&szlig;</label>
+                                <input class="form-control" name="suess" id="suess" type="number" value="0" id="suess">
+                            </div>
 
-    <div class="form-group numeric">
-        {!! Form::label('fruchtig', 'fruchtig', ['class' => 'control-label']) !!}
-        {!! Form::number('fruchtig', $question->fruchtig, ['class' => 'form-control']) !!}
-    </div>
+                            <div class="form-group numeric">
+                                <label for="wuerzig" class="control-label">w&uuml;rzig</label>
+                                <input class="form-control" name="wuerzig" id="wuerzig" type="number" value="0" id="wuerzig">
+                            </div>
 
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+                            <div class="form-group numeric">
+                                <label for="fruchtig" class="control-label">fruchtig</label>
+                                <input class="form-control" name="fruchtig" id="fruchtig" type="number" value="0" id="fruchtig">
+                            </div>
+                            
+                            <input type="hidden" id="idInput">
 
-    {!! Form::close() !!}
+                            <input class="btn btn-primary" type="submit" value="Speichern">
+                            <input type="hidden" class="btn btn-danger" value="Löschen" id="deletePost">
+                        </form>
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
                     <script>
-                    $('#testform').submit(function( event ) {
-                        event.preventDefault();
-                        $.ajax({
-                            url: 'http://tastalyze.dev/',
-                            type: 'post',
-                            data: $('form').serialize(), // Remember that you need to have your csrf token included
-                            dataType: 'json',
-                            success: function( _response ){
-                                // Handle your response..
-                            },
-                            error: function( _response ){
-                                // Handle error
-                            }
+                        $('#add').click(function(){
+                            $('#myModal').modal('show');
+                            $('.modalform').attr('id', 'createForm');
+                            $('#titel').val(null);
+                            $('#mild').val(0);
+                            $('#suess').val(0);
+                            $('#wuerzig').val(0);
+                            $('#fruchtig').val(0);
+                            $('#idInput').val(null);
                         });
-                    });
+                        $('tr').click(function(){
+                            $('#myModal').modal('show');
+                            $('.modalform').attr('id', 'editForm');
+                            $('#deletePost').attr('type', null);
+                            var id = $(this).attr("data-id");
+                            $('#titel').val($('#titel' + id).text());
+                            $('#mild').val($('#mild' + id).text());
+                            $('#suess').val($('#suess' + id).text());
+                            $('#wuerzig').val($('#wuerzig' + id).text());
+                            $('#fruchtig').val($('#fruchtig' + id).text());
+                            $('#idInput').val(id);
+                        });
+                        $('#deletePost').click(function(){
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '/delete', //this is your uri
+                                type: 'DELETE', //this is your method
+                                data: {id:$('#idInput').val()},
+                                success: function(data){
+                                    $('#' + data.id).remove();
+                                    $('#myModal').modal('hide');
+                                },
+                                error: function(data){
+                                    console.log(data);
+                                }
+                            });
+                        })
+                        $(document).on('submit','#editForm',function(e){
+                            e.preventDefault();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '/editold', //this is your uri
+                                type: 'PUT', //this is your method
+                                data: {id:$('#idInput').val(),titel: $('#titel').val(),mild: $('#mild').val(),suess: $('#suess').val(),wuerzig: $('#wuerzig').val(),fruchtig: $('#fruchtig').val()},
+                                success: function(data){
+                                    $('#titel' + data.id).text(data.titel);
+                                    $('#mild' + data.id).text(data.mild);
+                                    $('#suess' + data.id).text(data.suess);
+                                    $('#wuerzig' + data.id).text(data.wuerzig);
+                                    $('#fruchtig' + data.id).text(data.fruchtig);
+                                $('#myModal').modal('hide');
+                                },
+                                error: function(data){
+                                    console.log(data);
+                                }
+                            });
+                        });
+                        $(document).on('submit','#createForm',function(e){
+                            e.preventDefault();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '/setnew', //this is your uri
+                                type: 'POST', //this is your method
+                                data: {titel: $('#titel').val(),mild: $('#mild').val(),suess: $('#suess').val(),wuerzig: $('#wuerzig').val(),fruchtig: $('#fruchtig').val()},
+                                success: function(data){
+                                    $('tbody').append('<tr><td id="titel' + data.id + '">' + data.titel + '</td><td id="mild' + data.id + '">' + data.mild + '</td><td id="suess' + data.id + '">' + data.suess + '</td><td id="wuerzig' + data.id + '">' + data.wuerzig + '</td><td id="fruchtig' + data.id + '">' + data.fruchtig + '</td></tr>'
+                                );
+                                $('#myModal').modal('hide');
+                                },
+                                error: function(data){
+                                    console.log(data);
+                                }
+                            });
+                        });
                     </script>
 @endif
 @if(Auth::guest())

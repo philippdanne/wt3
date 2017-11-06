@@ -60,8 +60,51 @@ class QuestionsController extends Controller
         ]);
         
         Question::create($request->all());
-
+        
         return redirect()->route('admin.index');
+    }
+    
+    public function setNew(Request $request)
+    {
+        $this->validate($request, [
+            'titel' => 'required|unique:questions|max:60',
+            'mild' => 'min:0|max:100|required|integer',
+            'suess' => 'min:0|max:100|required|integer',
+            'wuerzig' => 'min:0|max:100|required|integer',
+            'fruchtig' => 'min:0|max:100|required|integer'
+        ]);
+        
+        $newQuestion = Question::create($request->all());
+        
+        return response()->json($newQuestion);
+    }
+    
+    public function editOld(Request $request)
+    {
+        
+        $this->validate($request, [
+            'titel' => 'required|unique:questions|max:60',
+            'mild' => 'min:0|max:100|required|integer',
+            'suess' => 'min:0|max:100|required|integer',
+            'wuerzig' => 'min:0|max:100|required|integer',
+            'fruchtig' => 'min:0|max:100|required|integer'
+        ]);
+        
+        $question = Question::where('id', $request['id'])->first();
+        
+        $question->fill($request->all())->save();
+        
+        return response()->json($question);
+    }
+    
+    public function deleteOld(Request $request)
+    {
+        
+        $question = Question::where('id', $request['id'])->first();
+        
+        $question->delete();
+        
+        return response()->json($question);
     }
 
     /**
@@ -108,7 +151,7 @@ class QuestionsController extends Controller
         
         $question->fill($request->all())->save();
         
-        return response()->json($question);
+        return redirect()->route('admin.index');
     }
 
     /**
